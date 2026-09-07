@@ -347,9 +347,47 @@ label span,.stack-form label span{
 .btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
 .btn-ghost:hover{border-color:rgba(232,160,32,.4);color:var(--gold-hi)}
 .btn-danger{background:rgba(217,117,106,.12);border-color:rgba(217,117,106,.35);color:#f0b4ad}
+.btn-danger:hover{background:rgba(217,117,106,.2);border-color:rgba(217,117,106,.5)}
+.btn-danger:disabled{opacity:.6;cursor:not-allowed}
 .btn-danger.ghost{background:transparent}
 .btn-sm{padding:8px 12px;font-size:.78rem;border-radius:10px}
 a.btn-primary,a.btn-ghost{text-decoration:none}
+
+.confirm-dialog-wrap{
+  position:fixed;inset:0;z-index:200;
+  display:grid;place-items:center;padding:20px;
+  background:rgba(6,5,4,.72);backdrop-filter:blur(6px);
+}
+.confirm-dialog{
+  width:min(100%,420px);
+  padding:24px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:var(--panel,#16120e);
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+}
+.confirm-dialog h3{
+  margin:0;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.85rem;
+  letter-spacing:.03em;
+  line-height:1;
+}
+.confirm-dialog p{
+  margin:12px 0 0;
+  color:var(--mute);
+  font-size:.9rem;
+  line-height:1.5;
+}
+.confirm-dialog-actions{
+  display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;
+  margin-top:22px;
+}
+.confirm-dialog-actions .btn-ghost,
+.confirm-dialog-actions .btn-danger,
+.confirm-dialog-actions .btn-primary{
+  min-width:110px;
+}
 
 /* Shared UI */
 .ui-loading{

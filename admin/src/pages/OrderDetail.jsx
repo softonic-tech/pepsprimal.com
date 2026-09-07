@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import ConfirmDialog from '../components/ConfirmDialog'
 import StatusLabel from '../components/StatusLabel'
 import { productImageUrl } from '../lib/storage'
 import {
@@ -54,6 +55,7 @@ export default function OrderDetail() {
   const [savingStatus, setSavingStatus] = useState(false)
   const [savingNotes, setSavingNotes] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [statusFlash, setStatusFlash] = useState('')
   const [notesFlash, setNotesFlash] = useState('')
   const [error, setError] = useState('')
@@ -149,18 +151,12 @@ export default function OrderDetail() {
 
   const deleteOrder = async () => {
     if (!order || deleting) return
-    if (
-      !confirm(
-        `Delete order ${order.id}? This permanently removes the order and its items. This cannot be undone.`,
-      )
-    ) {
-      return
-    }
     setDeleting(true)
     setError('')
     const { error: err } = await supabase.from('orders').delete().eq('id', id)
     if (err) {
       setDeleting(false)
+      setConfirmDelete(false)
       setError(err.message)
       return
     }
@@ -237,9 +233,9 @@ export default function OrderDetail() {
             type="button"
             className="btn-danger"
             disabled={deleting}
-            onClick={deleteOrder}
+            onClick={() => setConfirmDelete(true)}
           >
-            {deleting ? 'Deleting…' : 'Delete order'}
+            Delete order
           </button>
           <span className={`status-pill lg tone-${statusTone(order.status)}`}>
             <StatusLabel status={order.status} />
@@ -449,6 +445,20 @@ export default function OrderDetail() {
           </section>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={confirmDelete}
+        danger
+        busy={deleting}
+        title="Delete this order?"
+        message={`Order ${order.id} and all of its line items will be permanently removed. This cannot be undone.`}
+        confirmLabel="Delete order"
+        cancelLabel="Keep order"
+        onCancel={() => {
+          if (!deleting) setConfirmDelete(false)
+        }}
+        onConfirm={deleteOrder}
+      />
     </div>
   )
 }
