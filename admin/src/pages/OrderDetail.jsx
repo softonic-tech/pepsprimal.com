@@ -53,6 +53,7 @@ export default function OrderDetail() {
   const [loading, setLoading] = useState(true)
   const [savingStatus, setSavingStatus] = useState(false)
   const [savingNotes, setSavingNotes] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [statusFlash, setStatusFlash] = useState('')
   const [notesFlash, setNotesFlash] = useState('')
   const [error, setError] = useState('')
@@ -146,6 +147,26 @@ export default function OrderDetail() {
     setTimeout(() => setNotesFlash(''), 2200)
   }
 
+  const deleteOrder = async () => {
+    if (!order || deleting) return
+    if (
+      !confirm(
+        `Delete order ${order.id}? This permanently removes the order and its items. This cannot be undone.`,
+      )
+    ) {
+      return
+    }
+    setDeleting(true)
+    setError('')
+    const { error: err } = await supabase.from('orders').delete().eq('id', id)
+    if (err) {
+      setDeleting(false)
+      setError(err.message)
+      return
+    }
+    navigate('/orders')
+  }
+
   const notesDirty = order && adminNotes !== (order.admin_notes || '')
   const next = order ? nextOrderStatus(order.status) : null
   const ship = order?.shipping || {}
@@ -211,9 +232,19 @@ export default function OrderDetail() {
             {paymentLabel(order.payment_method)}
           </p>
         </div>
-        <span className={`status-pill lg tone-${statusTone(order.status)}`}>
-          <StatusLabel status={order.status} />
-        </span>
+        <div className="head-actions">
+          <button
+            type="button"
+            className="btn-danger"
+            disabled={deleting}
+            onClick={deleteOrder}
+          >
+            {deleting ? 'Deleting…' : 'Delete order'}
+          </button>
+          <span className={`status-pill lg tone-${statusTone(order.status)}`}>
+            <StatusLabel status={order.status} />
+          </span>
+        </div>
       </header>
 
       {order.status === 'Awaiting payment' && (
