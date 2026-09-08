@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /account
+
+Sitemap: https://www.pepsprimal.com/sitemap.xml

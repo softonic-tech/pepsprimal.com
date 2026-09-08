@@ -27,6 +27,7 @@ import ProductDetail from './components/ProductDetail'
 import ComingSoon from './components/ComingSoon'
 import Landing from './components/Landing'
 import WhatsAppFloat from './components/WhatsAppFloat'
+import Seo from './components/Seo'
 import './styles.css'
 
 function RevealObserver() {
@@ -156,9 +157,12 @@ function AppLayout() {
 
   if (loading) {
     return (
-      <div className="coming-soon coming-soon-boot" aria-busy="true">
-        <img src="/logo.png" alt="Primal Peps" />
-      </div>
+      <>
+        <Seo />
+        <div className="coming-soon coming-soon-boot" aria-busy="true">
+          <img src="/logo.png" alt="Primal Peps" />
+        </div>
+      </>
     )
   }
 
@@ -166,6 +170,7 @@ function AppLayout() {
     if (isLanding) {
       return (
         <>
+          <Seo />
           <Landing waitlist />
           <Toast />
         </>
@@ -173,6 +178,7 @@ function AppLayout() {
     }
     return (
       <>
+        <Seo />
         <ComingSoon />
         <Toast />
       </>
@@ -181,6 +187,7 @@ function AppLayout() {
 
   return (
     <>
+      <Seo />
       <ScrollToTop />
       {!isHome && <Nav announceVisible={false} />}
       <Routes>

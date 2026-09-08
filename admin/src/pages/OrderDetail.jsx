@@ -19,7 +19,7 @@ function orderEmailEndpoint() {
     return `${String(configured).replace(/\/$/, '')}/api/order-email`
   }
   if (import.meta.env.DEV) return 'http://localhost:5173/api/order-email'
-  return 'https://primalpeps.shop/api/order-email'
+  return 'https://pepsprimal.com/api/order-email'
 }
 
 function CopyButton({ value, label = 'Copy' }) {

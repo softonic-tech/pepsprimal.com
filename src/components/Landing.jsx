@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { LEGAL } from '../data/site'
 import { useCart } from '../context/CartContext'
@@ -108,14 +108,6 @@ export default function Landing({ waitlist = false }) {
   const aboutRef = useReveal()
   const pillarsRef = useReveal()
   const stepsRef = useReveal()
-
-  useEffect(() => {
-    const prev = document.title
-    document.title = 'Primal Peps — Research catalog'
-    return () => {
-      document.title = prev
-    }
-  }, [])
 
   const scrollNotify = () => {
     document.getElementById('lp-waitlist')?.scrollIntoView({
