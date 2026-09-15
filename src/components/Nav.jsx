@@ -34,7 +34,7 @@ export default function Nav({ announceVisible }) {
         <div className="nav-links">
           <a href="/#shop">Shop</a>
           <Link to="/landing">About</Link>
-          <a href="/#science">COA</a>
+          <Link to="/coa-library">COA</Link>
           <Link to="/track-order">Track</Link>
           <a href="/#points">Rewards</a>
         </div>
@@ -127,8 +127,11 @@ export default function Nav({ announceVisible }) {
           About
         </Link>
         <a href="/#science" onClick={closeMenu}>
-          COA
+          Science
         </a>
+        <Link to="/coa-library" onClick={closeMenu}>
+          COA Library
+        </Link>
         <Link to="/track-order" onClick={closeMenu}>
           Track order
         </Link>

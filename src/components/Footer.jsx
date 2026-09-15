@@ -98,6 +98,7 @@ export default function Footer() {
             <div className="foot-links">
               <a href="#shipping">Shipping &amp; delivery</a>
               <a href="/track-order">Track order</a>
+              <a href="/coa-library">COA Library</a>
               <a href="#faq">FAQ</a>
               <a href="#disclaimer">Legal disclaimer</a>
               {contact.email && (
