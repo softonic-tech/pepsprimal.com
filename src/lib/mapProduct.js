@@ -1,3 +1,29 @@
+/** Product IDs that show View COA on the storefront; all others stay Pending. */
+export const COA_ENABLED_IDS = new Set([
+  'reta',
+  'mots',
+  'cjc',
+  'ghk',
+  'tesa',
+  'klow',
+  'tb',
+  'bpc',
+  'cagri',
+  'mt2',
+  'glow',
+])
+
+const SAMPLE_COA_URL = '/coa-sample.pdf'
+
+function resolveCoaUrl(row, variants = []) {
+  if (!COA_ENABLED_IDS.has(row.id)) return null
+  return (
+    row.coa_url ||
+    (variants || []).find((v) => v.coa_url)?.coa_url ||
+    SAMPLE_COA_URL
+  )
+}
+
 /** Map Supabase product + variants rows to storefront product shape. */
 export function mapProduct(row, variants = []) {
   if (!row) return null
@@ -12,10 +38,7 @@ export function mapProduct(row, variants = []) {
       stock: Number(v.stock ?? 0),
     }))
 
-  const coaUrl =
-    row.coa_url ||
-    (variants || []).find((v) => v.coa_url)?.coa_url ||
-    null
+  const coaUrl = resolveCoaUrl(row, variants)
 
   return {
     id: row.id,
@@ -66,6 +89,10 @@ export function mapOrder(row) {
     total: Number(row.total),
     pointsEarned: row.points_earned || 0,
     shipping: row.shipping || {},
+    trackingNumber: row.tracking_number || '',
+    additionalTrackingNumbers: Array.isArray(row.additional_tracking_numbers)
+      ? row.additional_tracking_numbers
+      : [],
   }
 }
 

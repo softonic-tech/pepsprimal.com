@@ -1,8 +1,18 @@
 /**
  * Shared order emails for Vite middleware and Vercel.
  * Sends via Resend — confirmation on checkout, then status updates from admin.
+ * Idempotent via orders.*_email_sent flags (peplab-style).
  */
 const { createClient } = require('@supabase/supabase-js')
+
+const STATUS_FLAG = {
+  'Awaiting payment': 'confirmation_email_sent',
+  'Payment received': 'payment_email_sent',
+  Processing: 'processing_email_sent',
+  Shipped: 'shipped_email_sent',
+  Delivered: 'delivered_email_sent',
+  Cancelled: 'cancelled_email_sent',
+}
 
 const STATUS_COPY = {
   'Awaiting payment': {
@@ -38,9 +48,8 @@ const STATUS_COPY = {
     subject: (id) => `Order ${id} has shipped`,
     heading: 'On the way',
     intro: (id) =>
-      `Order <strong style="color:#f7c04a">${id}</strong> has shipped. Delivery follows the method you chose at checkout.`,
-    introText: (id) =>
-      `Order ${id} has shipped. Delivery follows the method you chose at checkout.`,
+      `Order <strong style="color:#f7c04a">${id}</strong> has shipped.`,
+    introText: (id) => `Order ${id} has shipped.`,
     showBank: false,
     bcc: false,
   },
@@ -76,6 +85,10 @@ function escapeHtml(value) {
 
 function money(n) {
   return `$${Number(n || 0).toFixed(2)}`
+}
+
+function ausPostUrl(trackingNumber) {
+  return `https://auspost.com.au/mypost/track/#/details/${encodeURIComponent(trackingNumber)}`
 }
 
 function itemLines(items) {
@@ -152,6 +165,33 @@ function bankHtml(order, bank) {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${rows}</table>`
 }
 
+function trackingHtml(trackingNumber, { replacement = false } = {}) {
+  if (!trackingNumber) {
+    return `<p style="margin:18px 0 0;color:#9a9184;font-size:13px">Tracking will follow shortly.</p>`
+  }
+  const url = ausPostUrl(trackingNumber)
+  const label = replacement ? 'Updated tracking' : 'Tracking'
+  return `
+    <div style="margin:18px 0 0;padding:16px;border:1px solid #57431c;border-radius:12px;background:#0c0b09;text-align:center">
+      <p style="margin:0 0 6px;color:#9a9184;font-size:11px;letter-spacing:.12em;text-transform:uppercase">${label}</p>
+      <p style="margin:0 0 8px;color:#f7c04a;font-size:20px;font-weight:800;font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.03em">${escapeHtml(trackingNumber)}</p>
+      <p style="margin:0 0 14px;color:#9a9184;font-size:13px">Carrier: <strong style="color:#ece9e3">Australia Post</strong></p>
+      <a href="${escapeHtml(url)}" style="display:inline-block;padding:12px 18px;background:linear-gradient(135deg,#f7c04a,#e8a020);color:#140d02;text-decoration:none;font-weight:700;border-radius:10px">Track shipment</a>
+    </div>
+    <p style="margin:14px 0 0;text-align:center;color:#9a9184;font-size:13px">Typical delivery: <strong style="color:#ece9e3">2–4 business days</strong> (Express) or <strong style="color:#ece9e3">5–8</strong> (Standard).</p>
+  `
+}
+
+function trackingText(trackingNumber, { replacement = false } = {}) {
+  if (!trackingNumber) return 'Tracking will follow shortly.'
+  const label = replacement ? 'Updated tracking' : 'Tracking'
+  return [
+    `${label}: ${trackingNumber}`,
+    'Carrier: Australia Post',
+    `Track: ${ausPostUrl(trackingNumber)}`,
+  ].join('\n')
+}
+
 function wrapHtml(heading, introHtml, bodyHtml) {
   return `<!doctype html>
 <html><body style="margin:0;background:#050504;color:#ece9e3;font-family:Arial,sans-serif">
@@ -171,18 +211,26 @@ function wrapHtml(heading, introHtml, bodyHtml) {
 </body></html>`
 }
 
-function buildEmail(order, items, bank, status) {
+function buildStatusEmail(order, items, bank, status) {
   const copy = STATUS_COPY[status] || STATUS_COPY['Awaiting payment']
   const id = escapeHtml(order.id)
+  const includeTracking = status === 'Shipped'
+  const tracking = includeTracking ? trackingHtml(order.tracking_number) : ''
+  const trackingPlain = includeTracking
+    ? trackingText(order.tracking_number)
+    : ''
+
   const html = wrapHtml(
     copy.heading,
     copy.intro(id),
-    `<table role="presentation" width="100%" cellpadding="0" cellspacing="0">${itemRows(items)}</table>
+    `${tracking}
+     <table role="presentation" width="100%" cellpadding="0" cellspacing="0">${itemRows(items)}</table>
      ${totalsHtml(order)}
      ${copy.showBank ? bankHtml(order, bank) : ''}`,
   )
   const text = [
     copy.introText(order.id),
+    trackingPlain,
     '',
     'Items',
     itemLines(items) || '- (none)',
@@ -202,6 +250,34 @@ function buildEmail(order, items, bank, status) {
     html,
     text,
     bcc: copy.bcc,
+    kind: status,
+    flag: STATUS_FLAG[status] || null,
+  }
+}
+
+function buildReplacementEmail(order, trackingNumber) {
+  const tn = String(trackingNumber || '').trim()
+  const id = escapeHtml(order.id)
+  const html = wrapHtml(
+    'Updated tracking',
+    `Here's an updated tracking number for order <strong style="color:#f7c04a">${id}</strong>.`,
+    trackingHtml(tn, { replacement: true }),
+  )
+  const text = [
+    `Updated tracking for order ${order.id}.`,
+    '',
+    trackingText(tn, { replacement: true }),
+    '',
+    'Research use only. 18+.',
+  ].join('\n')
+
+  return {
+    subject: `Updated tracking — ${order.id}`,
+    html,
+    text,
+    bcc: false,
+    kind: 'replacement',
+    flag: null,
   }
 }
 
@@ -213,6 +289,26 @@ function resolveOrderEmailEnv(env = process.env) {
     from: env.RESEND_FROM || '',
     bcc: env.RESEND_BCC || '',
   }
+}
+
+async function sendViaResend(resendKey, payload) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${resendKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+  const data = await res.json().catch(() => ({}))
+  if (!res.ok) {
+    return {
+      ok: false,
+      status: res.status === 403 ? 503 : 502,
+      error: data.message || data.error || 'Resend rejected the email',
+    }
+  }
+  return { ok: true, emailId: data.id }
 }
 
 async function handleOrderEmail(body, env) {
@@ -255,15 +351,52 @@ async function handleOrderEmail(body, env) {
     return { status: 400, body: { error: 'Order has no customer email' } }
   }
 
-  const requested = String(body.status || '').trim()
-  const status = STATUS_COPY[requested] ? requested : order.status
+  const kind = String(body.kind || '').trim().toLowerCase()
+  const force = Boolean(body.force)
+  const overrideTracking = String(body.trackingNumber || '').trim()
 
   const [{ data: items }, { data: settings }] = await Promise.all([
     admin.from('order_items').select('*').eq('order_id', orderId),
     admin.from('site_settings').select('bank, contact').eq('id', 1).maybeSingle(),
   ])
 
-  const built = buildEmail(order, items || [], settings?.bank || {}, status)
+  let built
+  if (kind === 'replacement') {
+    if (!overrideTracking) {
+      return {
+        status: 400,
+        body: { error: 'Missing trackingNumber for replacement email' },
+      }
+    }
+    built = buildReplacementEmail(order, overrideTracking)
+  } else {
+    const requested = String(body.status || '').trim()
+    const status = STATUS_COPY[requested] ? requested : order.status
+    const orderForEmail =
+      status === 'Shipped' && overrideTracking
+        ? { ...order, tracking_number: overrideTracking }
+        : order
+    built = buildStatusEmail(
+      orderForEmail,
+      items || [],
+      settings?.bank || {},
+      status,
+    )
+
+    if (built.flag && order[built.flag] && !force) {
+      return {
+        status: 200,
+        body: {
+          ok: true,
+          skipped: true,
+          reason: 'already_sent',
+          kind: built.kind,
+          flag: built.flag,
+        },
+      }
+    }
+  }
+
   const payload = {
     from,
     to: [to],
@@ -276,23 +409,35 @@ async function handleOrderEmail(body, env) {
     payload.bcc = [copyTo]
   }
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${resendKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) {
-    return {
-      status: res.status === 403 ? 503 : 502,
-      body: { error: data.message || data.error || 'Resend rejected the email' },
+  const sent = await sendViaResend(resendKey, payload)
+  if (!sent.ok) {
+    return { status: sent.status, body: { error: sent.error } }
+  }
+
+  if (built.flag) {
+    const { error: flagErr } = await admin
+      .from('orders')
+      .update({ [built.flag]: true })
+      .eq('id', orderId)
+    if (flagErr) {
+      console.warn('[order-email] flag update failed:', flagErr.message)
     }
   }
 
-  return { status: 200, body: { ok: true, emailId: data.id, kind: status } }
+  return {
+    status: 200,
+    body: {
+      ok: true,
+      emailId: sent.emailId,
+      kind: built.kind,
+      flag: built.flag || null,
+    },
+  }
 }
 
-module.exports = { handleOrderEmail, resolveOrderEmailEnv }
+module.exports = {
+  handleOrderEmail,
+  resolveOrderEmailEnv,
+  STATUS_FLAG,
+  ausPostUrl,
+}
