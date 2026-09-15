@@ -1,0 +1,8 @@
+# Edge Functions for Primal Peps storefront
+# Deploy order email:
+#   npx supabase functions deploy order-email --no-verify-jwt
+# Secrets:
+#   npx supabase secrets set RESEND_API_KEY=... RESEND_FROM_EMAIL="Primal Peps <orders@pepsprimal.com>"
+
+[functions.order-email]
+verify_jwt = false
