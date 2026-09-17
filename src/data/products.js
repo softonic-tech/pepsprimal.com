@@ -816,6 +816,42 @@ export const PRODUCTS = [
       { id: '20mg', label: '20MG', price: 88, img: 'new-peptides/tirzepatide-20mg.png', stock: 0 },
     ],
   },
+  {
+    id: 'sema',
+    name: 'Semaglutide',
+    aka: ['Sema', 'GLP-1 receptor agonist'],
+    sub: 'Long-acting GLP-1 receptor agonist for metabolic research.',
+    tag: 'Metabolic',
+    cat: 'metabolic',
+    categoryLabel: 'Metabolic Research',
+    cas: '910463-68-2',
+    mw: '4,113.6 Da',
+    lot: 'PP-2026-023',
+    form: 'Lyophilised powder',
+    purity: '99%+',
+    storageLyophilised: '-20 °C — protect from light & moisture',
+    storageReconstituted: '2–8 °C — use within 28 days',
+    reconstitution: 'Bacteriostatic water (recommended)',
+    perks: [
+      'Selective GLP-1 receptor agonist',
+      'Metabolic & appetite models',
+      'Incretin pathway research',
+    ],
+    researchFocus: [
+      'Appetite and caloric-intake signalling',
+      'Glycaemic and metabolic marker studies',
+      'Comparison with dual- and tri-agonist incretin peptides',
+    ],
+    description:
+      'Semaglutide is a long-acting GLP-1 receptor agonist widely used in metabolic, appetite, and body-composition research models. As a mono-agonist GLP-1 tool, it is commonly compared with dual agonists such as tirzepatide and tri-agonists such as retatrutide. Supplied lyophilised for laboratory reconstitution.',
+    story:
+      'The foundational GLP-1 research peptide used across modern metabolic and incretin studies.',
+    hue: '#f7c04a',
+    variants: [
+      { id: '10mg', label: '10MG', price: 99, img: 'new-peptides/tirzepatide-10mg.png', stock: 100 },
+      { id: '20mg', label: '20MG', price: 149, img: 'new-peptides/tirzepatide-20mg.png', stock: 100 },
+    ],
+  },
 ]
 
 export const SPOTLIGHT_IDS = ['reta', 'mots', 'cjc']
