@@ -34,7 +34,8 @@ export default function Nav({ announceVisible }) {
         <div className="nav-links">
           <a href="/#shop">Shop</a>
           <Link to="/landing">About</Link>
-          <a href="/#science">Science</a>
+          <Link to="/coa-library">COA</Link>
+          <Link to="/track-order">Track</Link>
           <a href="/#points">Rewards</a>
         </div>
         <div className="nav-cta">
@@ -128,6 +129,12 @@ export default function Nav({ announceVisible }) {
         <a href="/#science" onClick={closeMenu}>
           Science
         </a>
+        <Link to="/coa-library" onClick={closeMenu}>
+          COA Library
+        </Link>
+        <Link to="/track-order" onClick={closeMenu}>
+          Track order
+        </Link>
         <a href="/#points" onClick={closeMenu}>
           Rewards
         </a>

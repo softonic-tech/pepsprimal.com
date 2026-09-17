@@ -26,6 +26,8 @@ import Dashboard from './components/Dashboard'
 import ProductDetail from './components/ProductDetail'
 import ComingSoon from './components/ComingSoon'
 import Landing from './components/Landing'
+import TrackOrder from './components/TrackOrder'
+import CoaLibrary from './components/CoaLibrary'
 import WhatsAppFloat from './components/WhatsAppFloat'
 import Seo from './components/Seo'
 import './styles.css'
@@ -194,6 +196,8 @@ function AppLayout() {
         <Route path="/" element={<HomePage />} />
         <Route path="/landing" element={<Landing />} />
         <Route path="/account" element={<Dashboard />} />
+        <Route path="/track-order" element={<TrackOrder />} />
+        <Route path="/coa-library" element={<CoaLibrary />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

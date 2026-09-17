@@ -44,6 +44,24 @@ function pageMeta(pathname, product) {
       type: 'website',
     }
   }
+  if (pathname === '/track-order') {
+    return {
+      title: `Track your order — ${SITE_NAME}`,
+      description:
+        'Track your Primal Peps order with your order ID and checkout email. AusPost shipment updates for Australian deliveries.',
+      robots: 'index, follow',
+      type: 'website',
+    }
+  }
+  if (pathname === '/coa-library') {
+    return {
+      title: `COA Library — ${SITE_NAME}`,
+      description:
+        'Browse Certificates of Analysis for Primal Peps research peptides. Lab documentation for purity and identity by lot.',
+      robots: 'index, follow',
+      type: 'website',
+    }
+  }
   if (pathname === '/landing') {
     return {
       title: `${SITE_NAME} — Research catalog`,
