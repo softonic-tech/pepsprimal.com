@@ -37,8 +37,8 @@ export const PRODUCTS = [
       'The triple-receptor research peptide at the centre of modern metabolic and incretin signalling studies.',
     hue: '#f7c04a',
     variants: [
-      { id: '5mg', label: '5MG', price: 109, img: 'products/RETATRUTIDE.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 135, img: 'products/RETATRUTIDE-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 109, img: 'primal-peps-transparent-vials/retatrutide-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 135, img: 'primal-peps-transparent-vials/retatrutide-10mg.png', stock: 100 },
     ],
   },
   {
@@ -74,9 +74,9 @@ export const PRODUCTS = [
       'A mitochondrial-derived peptide at the forefront of cellular metabolism and energy-pathway research.',
     hue: '#e8a020',
     variants: [
-      { id: '5mg', label: '5MG', price: 69, img: 'products/MOTS-C.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 80, img: 'products/MOTS-C-10MG.png', stock: 100 },
-      { id: '40mg', label: '40MG', price: 145, img: 'products/MOTS-C-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 69, img: 'primal-peps-transparent-vials/mots-c-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 80, img: 'primal-peps-transparent-vials/mots-c-10mg.png', stock: 100 },
+      { id: '40mg', label: '40MG', price: 145, img: 'primal-peps-transparent-vials/mots-c-40mg.png', stock: 100 },
     ],
   },
   {
@@ -116,8 +116,8 @@ export const PRODUCTS = [
       'The dual secretagogue blend trusted for GH-axis signalling and endocrine pathway research.',
     hue: '#f7c04a',
     variants: [
-      { id: '5mg', label: '5MG', price: 79, img: 'products/CJC-IPA.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 115, img: 'products/CJC-IPA-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 79, img: 'primal-peps-transparent-vials/cjc-ipa-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 115, img: 'primal-peps-transparent-vials/cjc-ipa-10mg.png', stock: 100 },
     ],
   },
   {
@@ -153,8 +153,8 @@ export const PRODUCTS = [
       'The copper-binding tripeptide essential for matrix signalling and cellular repair research.',
     hue: '#d98e1b',
     variants: [
-      { id: '50mg', label: '50MG', price: 70, img: 'products/GHK-CU.png', stock: 100 },
-      { id: '100mg', label: '100MG', price: 88, img: 'new-peptides/ghk-cu-100mg.png', stock: 0 },
+      { id: '50mg', label: '50MG', price: 70, img: 'primal-peps-transparent-vials/ghk-cu-50mg.png', stock: 100 },
+      { id: '100mg', label: '100MG', price: 88, img: 'primal-peps-transparent-vials/ghk-cu-100mg.png', stock: 0 },
     ],
   },
   {
@@ -190,8 +190,8 @@ export const PRODUCTS = [
       'A GHRH analogue widely used in lipid-metabolism and endocrine signalling research.',
     hue: '#e8a020',
     variants: [
-      { id: '5mg', label: '5MG', price: 85, img: 'products/TESAMORELIN.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 130, img: 'products/TESAMORELIN-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 85, img: 'primal-peps-transparent-vials/tesamorelin-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 130, img: 'primal-peps-transparent-vials/tesamorelin-10mg.png', stock: 100 },
     ],
   },
   {
@@ -233,8 +233,8 @@ export const PRODUCTS = [
       'Our signature multi-peptide blend for advanced cellular signalling and recovery research.',
     hue: '#f7c04a',
     variants: [
-      { id: '70mg', label: '70MG', price: 75, img: 'products/KLOW-70.png', stock: 0 },
-      { id: '80mg', label: '80MG', price: 185, img: 'products/KLOW-80.png', stock: 100 },
+      { id: '70mg', label: '70MG', price: 75, img: 'primal-peps-transparent-vials/klow-70mg.png', stock: 0 },
+      { id: '80mg', label: '80MG', price: 185, img: 'primal-peps-transparent-vials/klow-80mg.png', stock: 100 },
     ],
   },
   {
@@ -270,8 +270,8 @@ export const PRODUCTS = [
       'The thymosin beta-4 fragment essential for actin regulation and tissue research models.',
     hue: '#d98e1b',
     variants: [
-      { id: '5mg', label: '5MG', price: 65, img: 'products/TB-500.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 115, img: 'products/TB-500-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 65, img: 'primal-peps-transparent-vials/tb-500-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 115, img: 'primal-peps-transparent-vials/tb-500-10mg.png', stock: 100 },
     ],
   },
   {
@@ -307,8 +307,8 @@ export const PRODUCTS = [
       'The gastric pentadecapeptide at the centre of angiogenic pathway and tissue research.',
     hue: '#e8a020',
     variants: [
-      { id: '5mg', label: '5MG', price: 59, img: 'products/BPC-157.png', stock: 0 },
-      { id: '10mg', label: '10MG', price: 80, img: 'products/BPC-157-10MG.png', stock: 100 },
+      { id: '5mg', label: '5MG', price: 59, img: 'primal-peps-transparent-vials/bpc-157-5mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 80, img: 'primal-peps-transparent-vials/bpc-157-10mg.png', stock: 100 },
     ],
   },
   {
@@ -344,7 +344,7 @@ export const PRODUCTS = [
       'A long-acting amylin analogue advancing metabolic and appetite-pathway research models.',
     hue: '#f7c04a',
     variants: [
-      { id: '10mg', label: '10MG', price: 115, img: 'products/CAGRILINTIDE.png', stock: 100 },
+      { id: '10mg', label: '10MG', price: 115, img: 'primal-peps-transparent-vials/cagrilintide-10mg.png', stock: 100 },
     ],
   },
   {
@@ -380,7 +380,7 @@ export const PRODUCTS = [
       'The melanocortin analogue used widely in pigmentation and receptor-pathway research.',
     hue: '#d98e1b',
     variants: [
-      { id: '10mg', label: '10MG', price: 65, img: 'products/MT-2.png', stock: 100 },
+      { id: '10mg', label: '10MG', price: 65, img: 'primal-peps-transparent-vials/mt-2-10mg.png', stock: 100 },
     ],
   },
   {
@@ -414,7 +414,7 @@ export const PRODUCTS = [
       'The essential bacteriostatic water for reconstituting lyophilised research peptides.',
     hue: '#e8a020',
     variants: [
-      { id: 'std', label: '3ML', price: 10, img: 'products/BAC-WATER.png', stock: 100 },
+      { id: 'std', label: '3ML', price: 10, img: 'primal-peps-transparent-vials/bac-water-3ml.png', stock: 100 },
     ],
   },
   {
@@ -455,7 +455,7 @@ export const PRODUCTS = [
       'A multi-peptide blend formulated for advanced skin, matrix, and cellular repair research.',
     hue: '#f7c04a',
     variants: [
-      { id: '70mg', label: '70MG', price: 155, img: 'products/GLOW.png', stock: 100 },
+      { id: '70mg', label: '70MG', price: 155, img: 'primal-peps-transparent-vials/glow-70mg.png', stock: 100 },
     ],
   },
   {
@@ -491,7 +491,7 @@ export const PRODUCTS = [
       'The essential coenzyme at the centre of cellular energy and redox-pathway research.',
     hue: '#e8a020',
     variants: [
-      { id: '500mg', label: '500MG', price: 115, img: 'products/NAD.png', stock: 100 },
+      { id: '500mg', label: '500MG', price: 115, img: 'primal-peps-transparent-vials/nad-plus-500mg.png', stock: 100 },
     ],
   },
   {
@@ -527,7 +527,7 @@ export const PRODUCTS = [
       'A widely referenced cognitive-research peptide for neurotrophic and neuroprotection models.',
     hue: '#6ea8dc',
     variants: [
-      { id: '10mg', label: '10MG', price: 55, img: 'products/SEMAX.png', stock: 100 },
+      { id: '10mg', label: '10MG', price: 55, img: 'primal-peps-transparent-vials/semax-10mg.png', stock: 100 },
     ],
   },
   {
@@ -563,7 +563,7 @@ export const PRODUCTS = [
       'A tuftsin-analogue research peptide for anxiety and cognitive pathway models.',
     hue: '#6ea8dc',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/selank-10mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/selank-10mg.png', stock: 0 },
     ],
   },
   {
@@ -602,7 +602,7 @@ export const PRODUCTS = [
       'A dual-peptide blend for advanced tissue-repair and recovery research.',
     hue: '#d98e1b',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/bpc-tb-500-10mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/bpc-tb-500-10mg.png', stock: 0 },
     ],
   },
   {
@@ -637,7 +637,7 @@ export const PRODUCTS = [
       'A copper tripeptide tool for dermal and follicle signalling research.',
     hue: '#d98e1b',
     variants: [
-      { id: '50mg', label: '50MG', price: 88, img: 'new-peptides/ahk-cu-50mg.png', stock: 0 },
+      { id: '50mg', label: '50MG', price: 88, img: 'primal-peps-transparent-vials/ahk-cu-50mg.png', stock: 0 },
     ],
   },
   {
@@ -672,7 +672,7 @@ export const PRODUCTS = [
       'A compact α-MSH fragment for inflammation and barrier-pathway research.',
     hue: '#e8a020',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/kpv-10mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/kpv-10mg.png', stock: 0 },
     ],
   },
   {
@@ -707,7 +707,7 @@ export const PRODUCTS = [
       'A stabilised Semax analogue for advanced cognitive-research protocols.',
     hue: '#6ea8dc',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/adamax-10mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/adamax-10mg.png', stock: 0 },
     ],
   },
   {
@@ -742,7 +742,7 @@ export const PRODUCTS = [
       'A long-acting IGF-1 analogue for growth-factor and anabolic pathway research.',
     hue: '#f7c04a',
     variants: [
-      { id: '1mg', label: '1MG', price: 88, img: 'new-peptides/igf-1-lr3-1mg.png', stock: 0 },
+      { id: '1mg', label: '1MG', price: 88, img: 'primal-peps-transparent-vials/igf-1-lr3-1mg.png', stock: 0 },
     ],
   },
   {
@@ -777,7 +777,7 @@ export const PRODUCTS = [
       'The MC1R-focused melanocortin analogue for pigmentation pathway research.',
     hue: '#d98e1b',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/mt-1-10mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/mt-1-10mg.png', stock: 0 },
     ],
   },
   {
@@ -812,8 +812,8 @@ export const PRODUCTS = [
       'The dual-incretin research peptide widely used in modern metabolic studies.',
     hue: '#f7c04a',
     variants: [
-      { id: '10mg', label: '10MG', price: 88, img: 'new-peptides/tirzepatide-10mg.png', stock: 0 },
-      { id: '20mg', label: '20MG', price: 88, img: 'new-peptides/tirzepatide-20mg.png', stock: 0 },
+      { id: '10mg', label: '10MG', price: 88, img: 'primal-peps-transparent-vials/tirzepatide-10mg.png', stock: 0 },
+      { id: '20mg', label: '20MG', price: 88, img: 'primal-peps-transparent-vials/tirzepatide-20mg.png', stock: 0 },
     ],
   },
   {
@@ -848,9 +848,9 @@ export const PRODUCTS = [
       'The foundational GLP-1 research peptide used across modern metabolic and incretin studies.',
     hue: '#f7c04a',
     variants: [
-      { id: '10mg', label: '10MG', price: 99, img: 'new-peptides/tirzepatide-10mg.png', stock: 100 },
-      { id: '20mg', label: '20MG', price: 149, img: 'new-peptides/tirzepatide-20mg.png', stock: 100 },
-    ],
+      { id: '10mg', label: '10MG', price: 99, img: 'primal-peps-transparent-vials/semaglutide-10mg.png', stock: 100 },
+      { id: '20mg', label: '20MG', price: 149, img: 'primal-peps-transparent-vials/semaglutide-20mg.png', stock: 100 },
+     ],
   },
 ]
 
