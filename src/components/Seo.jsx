@@ -62,6 +62,15 @@ function pageMeta(pathname, product) {
       type: 'website',
     }
   }
+  if (pathname === '/checkout') {
+    return {
+      title: `Checkout — ${SITE_NAME}`,
+      description:
+        'Secure Primal Peps checkout. Review your research peptide cart, ship Australia-wide, and pay by PayID. Research use only · 18+.',
+      robots: 'index, follow',
+      type: 'website',
+    }
+  }
   if (pathname === '/landing') {
     return {
       title: `${SITE_NAME} — Research catalog`,

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { fmt, imgSrc, listPrice } from '../data/products'
 import { LEGAL } from '../data/site'
 import { useAuth } from '../context/AuthContext'
@@ -306,6 +306,9 @@ export default function Checkout() {
   } = useCart()
   const { user, isLoggedIn, openAuth, loading: authLoading } = useAuth()
   const { bank, shipping: shipSettings } = useSettings()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
+  const onCheckoutRoute = pathname === '/checkout'
   const freeThreshold = Number(shipSettings.freeThreshold) || 150
 
   const [step, setStep] = useState(1)
@@ -320,6 +323,10 @@ export default function Checkout() {
   useEffect(() => {
     if (promoApplied) setPromoInput(promoCode)
   }, [promoApplied, promoCode])
+
+  useEffect(() => {
+    setCartOpen(onCheckoutRoute)
+  }, [onCheckoutRoute, setCartOpen])
 
   useEffect(() => {
     if (!cartOpen) {
@@ -360,11 +367,17 @@ export default function Checkout() {
     [orderTotal, ptsPerDollar],
   )
 
-  const close = () => setCartOpen(false)
+  const close = () => {
+    if (onCheckoutRoute) navigate('/', { replace: true })
+    else setCartOpen(false)
+  }
 
   const continueShopping = () => {
-    close()
-    document.getElementById('shop')?.scrollIntoView({ behavior: 'smooth' })
+    if (onCheckoutRoute) navigate('/#shop', { replace: true })
+    else {
+      setCartOpen(false)
+      navigate('/#shop')
+    }
   }
 
   const setField = (key, value) => {

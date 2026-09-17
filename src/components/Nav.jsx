@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 
 export default function Nav({ announceVisible }) {
-  const { cartCount, lifetimePoints, setCartOpen } = useCart()
+  const { cartCount, lifetimePoints } = useCart()
   const { user, isLoggedIn, openAuth } = useAuth()
+  const navigate = useNavigate()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -83,7 +84,7 @@ export default function Nav({ announceVisible }) {
             id="openCart"
             aria-label="Open cart"
             type="button"
-            onClick={() => setCartOpen(true)}
+            onClick={() => navigate('/checkout')}
           >
             <svg
               viewBox="0 0 24 24"

@@ -10,6 +10,21 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.pepsprimal.com/checkout</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/track-order</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/coa-library</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
   <url><loc>https://www.pepsprimal.com/product/reta</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/mots</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/cjc</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -25,6 +40,7 @@
   <url><loc>https://www.pepsprimal.com/product/nad</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/semax</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/selank</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.pepsprimal.com/product/selsem</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/bpctb</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/ahk</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/kpv</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>

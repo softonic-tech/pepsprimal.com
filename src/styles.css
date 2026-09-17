@@ -1345,6 +1345,14 @@ footer::before{
 }
 
 /* ---------- premium checkout modal ---------- */
+.checkout-route{
+  padding:120px 0 80px;min-height:50vh;color:var(--muted,#9a9186);
+}
+.checkout-route h1{
+  font-family:var(--display,inherit);font-size:clamp(1.8rem,4vw,2.6rem);
+  color:var(--ink,#f4efe6);margin:0 0 12px;letter-spacing:.02em;
+}
+.checkout-route p{max-width:42rem;line-height:1.55;margin:0}
 .checkout-overlay{
   position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
   opacity:0;pointer-events:none;transition:opacity .4s;z-index:100;

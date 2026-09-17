@@ -101,6 +101,19 @@ function ScrollToTop() {
   return null
 }
 
+/** Routable /checkout shell — cart UI is the global Checkout overlay. */
+function CheckoutRoute() {
+  return (
+    <main className="checkout-route wrap">
+      <h1>Checkout</h1>
+      <p>
+        Review your cart and complete your Primal Peps research peptide order
+        with Australian PayID payment and discreet shipping.
+      </p>
+    </main>
+  )
+}
+
 function HomePage() {
   const [announceVisible, setAnnounceVisible] = useState(true)
 
@@ -198,6 +211,7 @@ function AppLayout() {
         <Route path="/account" element={<Dashboard />} />
         <Route path="/track-order" element={<TrackOrder />} />
         <Route path="/coa-library" element={<CoaLibrary />} />
+        <Route path="/checkout" element={<CheckoutRoute />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
