@@ -14,7 +14,7 @@ export const COA_ENABLED_IDS = new Set([
 ])
 
 const SAMPLE_COA_URL = '/coa-sample.pdf'
-
+//
 function resolveCoaUrl(row, variants = []) {
   if (!COA_ENABLED_IDS.has(row.id)) return null
   return (
