@@ -614,14 +614,14 @@ export default function Checkout() {
                       onKeyDown={(e) => {
                         if (e.key === 'Enter') {
                           e.preventDefault()
-                          applyPromo(promoInput)
+                          applyPromo(promoInput, { email: shipping.email })
                         }
                       }}
                     />
                     <button
                       className="promo-btn"
                       type="button"
-                      onClick={() => applyPromo(promoInput)}
+                      onClick={() => applyPromo(promoInput, { email: shipping.email })}
                     >
                       Apply
                     </button>

@@ -14,6 +14,7 @@ import {
   parseCartKey,
 } from '../data/products'
 import { bundleUnitPrice } from '../lib/bundlePricing'
+import { hasUsedPromoCode, ordersShowPromoUsed } from '../lib/promo'
 import { supabase } from '../lib/supabase'
 import { useAuth } from './AuthContext'
 import { useProducts } from './ProductsContext'
@@ -51,7 +52,13 @@ function writeWelcomeOffer(next) {
 }
 
 export function CartProvider({ children }) {
-  const { user, recordOrder, isLoggedIn, loading: authLoading } = useAuth()
+  const {
+    user,
+    recordOrder,
+    isLoggedIn,
+    loading: authLoading,
+    orders,
+  } = useAuth()
   const { products, getProduct } = useProducts()
   const { promo, points } = useSettings()
   const promoCode = (promo.code || 'PRIMAL15').toUpperCase()
@@ -196,18 +203,40 @@ export function CartProvider({ children }) {
   }, [])
 
   const applyPromo = useCallback(
-    (code) => {
-      if (code.trim().toUpperCase() === promoCode) {
-        setPromoApplied(true)
-        toast(`${promoPercent}% welcome discount applied ✓`)
-        return true
+    async (code, { email } = {}) => {
+      const trimmed = String(code || '')
+        .trim()
+        .toUpperCase()
+      if (trimmed !== promoCode) {
+        if (String(code || '').trim()) {
+          toast(`That code isn't valid — try ${promoCode}`)
+        }
+        return false
       }
-      if (code.trim()) {
-        toast(`That code isn't valid — try ${promoCode}`)
+
+      if (ordersShowPromoUsed(orders, promoCode)) {
+        toast('This welcome code can only be used once per customer', 'error')
+        setPromoApplied(false)
+        return false
       }
-      return false
+
+      const checkEmail = email || user?.email || ''
+      const used = await hasUsedPromoCode(promoCode, {
+        email: checkEmail,
+        userId: user?.id,
+      })
+      if (used) {
+        toast('This welcome code can only be used once per customer', 'error')
+        setPromoApplied(false)
+        return false
+      }
+
+      setPromoApplied(true)
+      writeWelcomeOffer({ claimed: true })
+      toast(`${promoPercent}% welcome discount applied ✓`)
+      return true
     },
-    [promoCode, promoPercent, toast],
+    [orders, promoCode, promoPercent, toast, user?.email, user?.id],
   )
 
   const dismissWelcome = useCallback(() => {
@@ -216,31 +245,52 @@ export function CartProvider({ children }) {
   }, [])
 
   const completeSignup = useCallback(
-    ({ silent = false } = {}) => {
+    async ({ silent = false } = {}) => {
       setSignedUp(true)
-      setPromoApplied(true)
       setWelcomeSeen(true)
+
+      if (ordersShowPromoUsed(orders, promoCode)) {
+        setPromoApplied(false)
+        writeWelcomeOffer({ seen: true, claimed: false })
+        return false
+      }
+
+      const used = await hasUsedPromoCode(promoCode, {
+        email: user?.email,
+        userId: user?.id,
+      })
+      if (used) {
+        setPromoApplied(false)
+        writeWelcomeOffer({ seen: true, claimed: false })
+        if (!silent) {
+          toast('Welcome code already used on a previous order', 'error')
+        }
+        return false
+      }
+
+      setPromoApplied(true)
       writeWelcomeOffer({ seen: true, claimed: true })
       if (!silent) {
         toast(`Welcome to the troop — ${promoCode} applied ✓`)
       }
+      return true
     },
-    [promoCode, toast],
+    [orders, promoCode, toast, user?.email, user?.id],
   )
 
-  // Logged-in members: never show the popup — apply welcome promo quietly
+  // Logged-in members: never show the popup — apply welcome promo quietly if unused
   useEffect(() => {
     if (authLoading || !isLoggedIn) return
-    if (promoApplied && welcomeSeen && signedUp) return
-    completeSignup({ silent: true })
-  }, [
-    authLoading,
-    completeSignup,
-    isLoggedIn,
-    promoApplied,
-    signedUp,
-    welcomeSeen,
-  ])
+    if (welcomeSeen && signedUp) return
+    let cancelled = false
+    ;(async () => {
+      await completeSignup({ silent: true })
+      if (cancelled) return
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [authLoading, completeSignup, isLoggedIn, signedUp, welcomeSeen])
 
   const placeOrder = useCallback(
     async (shipping = null, extras = {}) => {
@@ -249,11 +299,39 @@ export function CartProvider({ children }) {
         toast(err.message)
         throw err
       }
+
+      let promoDiscount = promoApplied ? disc : 0
+      const shipEmail = shipping?.email || user?.email || ''
+      if (promoDiscount > 0) {
+        if (ordersShowPromoUsed(orders, promoCode)) {
+          setPromoApplied(false)
+          const err = new Error(
+            'This welcome code can only be used once per customer',
+          )
+          toast(err.message, 'error')
+          throw err
+        }
+        const used = await hasUsedPromoCode(promoCode, {
+          email: shipEmail,
+          userId: user?.id,
+        })
+        if (used === true) {
+          setPromoApplied(false)
+          const err = new Error(
+            'This welcome code can only be used once per customer',
+          )
+          toast(err.message, 'error')
+          throw err
+        }
+      } else {
+        promoDiscount = 0
+      }
+
       const shipFee = extras.shipFee || 0
       const redeeming = redeemApplied && canRedeem
       const redeemAmount = redeeming ? REDEEM_VALUE : 0
       const pointsSpent = redeeming ? REDEEM_POINTS : 0
-      const merchandise = Math.max(0, sub - disc - redeemAmount)
+      const merchandise = Math.max(0, sub - promoDiscount - redeemAmount)
       const orderTotal = merchandise + shipFee
       const earned = Math.round(orderTotal * ptsPerDollar)
       const order = {
@@ -270,8 +348,9 @@ export function CartProvider({ children }) {
           img: i.img,
         })),
         subtotal: sub,
-        discount: disc + redeemAmount,
-        promoDiscount: disc,
+        discount: promoDiscount + redeemAmount,
+        promoDiscount,
+        promoCode: promoDiscount > 0 ? promoCode : null,
         redeemDiscount: redeemAmount,
         pointsRedeemed: pointsSpent,
         shippingFee: shipFee,
@@ -301,6 +380,10 @@ export function CartProvider({ children }) {
 
       setCart({})
       setRedeemApplied(false)
+      if (promoDiscount > 0) {
+        setPromoApplied(false)
+        writeWelcomeOffer({ claimed: false, seen: true })
+      }
       if (!extras.keepOpen) {
         setCartOpen(false)
         toast(
@@ -314,6 +397,9 @@ export function CartProvider({ children }) {
       canRedeem,
       cartItems,
       disc,
+      orders,
+      promoApplied,
+      promoCode,
       ptsPerDollar,
       recordOrder,
       redeemApplied,
