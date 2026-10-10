@@ -28,6 +28,7 @@ import ComingSoon from './components/ComingSoon'
 import Landing from './components/Landing'
 import TrackOrder from './components/TrackOrder'
 import CoaLibrary from './components/CoaLibrary'
+import LegalPage from './components/LegalPage'
 import WhatsAppFloat from './components/WhatsAppFloat'
 import Seo from './components/Seo'
 import './styles.css'
@@ -213,6 +214,14 @@ function AppLayout() {
         <Route path="/coa-library" element={<CoaLibrary />} />
         <Route path="/checkout" element={<CheckoutRoute />} />
         <Route path="/product/:id" element={<ProductDetail />} />
+        <Route
+          path="/shipping-policy"
+          element={<LegalPage slug="shipping-policy" />}
+        />
+        <Route path="/returns" element={<LegalPage slug="returns" />} />
+        <Route path="/privacy" element={<LegalPage slug="privacy" />} />
+        <Route path="/terms" element={<LegalPage slug="terms" />} />
+        <Route path="/legal" element={<LegalPage slug="legal" />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Checkout />

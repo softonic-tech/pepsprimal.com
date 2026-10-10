@@ -435,7 +435,9 @@ export default function Checkout() {
         setPlacedOrder(order)
         setShipping(emptyShipping)
         setLegalAck(false)
-        toast(`Order ${order.id} submitted — transfer funds to confirm`)
+        toast(
+          `Order ${order.id} submitted — transfer funds to confirm. Check spam for emails.`,
+        )
       } catch {
         /* toast already shown in placeOrder */
       } finally {
@@ -952,6 +954,23 @@ export default function Checkout() {
                     />
                     <span>{LEGAL.checkoutAck}</span>
                   </label>
+                  <p className="checkout-policy-links">
+                    <Link to="/terms" onClick={close}>
+                      Terms
+                    </Link>
+                    <Link to="/privacy" onClick={close}>
+                      Privacy
+                    </Link>
+                    <Link to="/shipping-policy" onClick={close}>
+                      Shipping
+                    </Link>
+                    <Link to="/returns" onClick={close}>
+                      Returns
+                    </Link>
+                    <Link to="/legal" onClick={close}>
+                      Compliance
+                    </Link>
+                  </p>
                 </div>
               </div>
               <div className="checkout-sidebar">
@@ -985,6 +1004,11 @@ export default function Checkout() {
                     below. Use <strong>{placedOrder.id}</strong> as your payment
                     reference. We&apos;ll dispatch once payment clears.
                   </p>
+                  <p className="order-spam-note">
+                    We&apos;ve sent a confirmation email with payment details.
+                    If you don&apos;t see it, check your <strong>spam / junk</strong>{' '}
+                    folder — payment and shipping updates will go there too.
+                  </p>
                 </div>
                 <BankTransferCard
                   reference={placedOrder.id}
@@ -1004,6 +1028,9 @@ export default function Checkout() {
                     <li>Send to PayID <strong>0400001235</strong></li>
                     <li>Enter {placedOrder.id} as the reference</li>
                     <li>We confirm payment and ship your order</li>
+                    <li>
+                      Check spam/junk for confirmation and shipping emails
+                    </li>
                   </ol>
                   {isLoggedIn ? (
                     <p className="bank-transfer-note">

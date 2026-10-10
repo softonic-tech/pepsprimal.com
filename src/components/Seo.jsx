@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useProducts } from '../context/ProductsContext'
+import { getLegalPage } from '../data/legalPages'
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
@@ -75,6 +76,16 @@ function pageMeta(pathname, product) {
     return {
       title: `${SITE_NAME} — Research catalog`,
       description: DEFAULT_DESCRIPTION,
+      robots: 'index, follow',
+      type: 'website',
+    }
+  }
+  const legalSlug = pathname.replace(/^\//, '')
+  const legalPage = getLegalPage(legalSlug)
+  if (legalPage) {
+    return {
+      title: `${legalPage.title} — ${SITE_NAME}`,
+      description: legalPage.description,
       robots: 'index, follow',
       type: 'website',
     }

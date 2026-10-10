@@ -25,6 +25,31 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.pepsprimal.com/shipping-policy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/returns</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/privacy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/terms</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://www.pepsprimal.com/legal</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
   <url><loc>https://www.pepsprimal.com/product/reta</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/mots</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.pepsprimal.com/product/cjc</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
