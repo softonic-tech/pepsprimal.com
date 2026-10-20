@@ -14,6 +14,7 @@ import Shop from './components/Shop'
 import Science from './components/Science'
 import Shipping from './components/Shipping'
 import Points from './components/Points'
+import TikTokReward from './components/TikTokReward'
 import Testimonials from './components/Testimonials'
 import Faq from './components/Faq'
 import Signup from './components/Signup'
@@ -138,6 +139,7 @@ function HomePage() {
       <Shop />
       <Science />
       <Shipping />
+      <TikTokReward />
       <Points />
       <Testimonials />
       <Faq />
