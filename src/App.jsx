@@ -14,7 +14,7 @@ import Shop from './components/Shop'
 import Science from './components/Science'
 import Shipping from './components/Shipping'
 import Points from './components/Points'
-import HalloweenSale from './components/HalloweenSale'
+import BlackFridaySale from './components/BlackFridaySale'
 import TikTokReward from './components/TikTokReward'
 import Testimonials from './components/Testimonials'
 import Faq from './components/Faq'
@@ -135,7 +135,7 @@ function HomePage() {
       />
       <Nav announceVisible={announceVisible} />
       <Hero />
-      <HalloweenSale />
+      <BlackFridaySale />
       <Marquee />
       <Spotlight />
       <Shop />
